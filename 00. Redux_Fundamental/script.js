@@ -2,9 +2,8 @@ import { createStore } from 'redux';
 
 let initialState = {
   post: 0,
-  name: "Aashish",
-  age: 18,
 };
+
 //state.post = state.post+1; // Mutating state
 //state = {...state, post: state.post+1} // Not Mutating state
 
@@ -32,15 +31,5 @@ store.dispatch({type: "post/increment"})
 store.dispatch({type: "post/increment"})
 
 
-
-
-
-
-// initialState = countReducer(initialState, { type: "post/increment" });
-// console.log(initialState);
-// initialState = countReducer(initialState, { type: "post/increment" });
-// console.log(initialState);
-// initialState = countReducer(initialState, { type: "post/decrement" });
-// console.log(initialState);
 // initialState = countReducer(initialState, {type: "post/incrementBy", payload: 10});
 // console.log(initialState);
