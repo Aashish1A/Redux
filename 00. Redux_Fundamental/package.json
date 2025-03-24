@@ -1,12 +1,17 @@
 {
   "name": "00.-redux_fundamental",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "parcel index.html"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": "c:/Users/Aashish Kumar/OneDrive/Desktop/Redux/00. Redux_Fundamental/package.json",
+  "devDependencies": {
+    "parcel": "^2.14.2"
+  },
+  "dependencies": {
+    "redux": "^5.0.1"
+  }
 }

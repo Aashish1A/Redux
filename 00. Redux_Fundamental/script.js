@@ -1,35 +1,56 @@
-import { createStore } from 'redux';
+import { createStore } from "redux";
 
-let initialState = {
+// Define action types as constants
+const INCREMENT = "post/increment";
+const DECREMENT = "post/decrement";
+const INCREMENT_BY = "post/incrementBy";
+const DECREMENT_BY = "post/decrementBy";
+
+
+// Initial state
+const initialState = {
   post: 0,
 };
 
-//state.post = state.post+1; // Mutating state
-//state = {...state, post: state.post+1} // Not Mutating state
-
+// Reducer function
 function countReducer(state = initialState, action) {
-  if (action.type === "post/increment") {
-    return { ...state, post: state.post + 1 };
-  } else if (action.type === "post/decrement") {
-    return { ...state, post: state.post - 1 };
-  } else if (action.type === "post/incrementBy") {
-    return { ...state, post: state.post + action.payload };
+  switch (action.type) {
+    case INCREMENT:
+      return { ...state, post: state.post + 1 };
+    case DECREMENT:
+      return { ...state, post: state.post - 1 };
+    case INCREMENT_BY:
+      return { ...state, post: state.post + action.payload };
+    case DECREMENT_BY:
+      return {...state, post: state.post - action.payload};
+    default:
+      return state;
   }
-
-  return state;
 }
 
-const store = createStore(countReducer);
+// Create action creators
+const increment = () => ({ type: INCREMENT });
+const decrement = () => ({ type: DECREMENT });
+const incrementBy = (value) => ({ type: INCREMENT_BY, payload: value });
+const decrementBy = (value) => ({type: DECREMENT_BY, payload: value});
 
-console.log(store);
+// Create the Redux store
+const store = createStore(countReducer,window.__REDUX_DEVTOOLS_EXTENSION__?.());
 
+
+// Subscribe to store updates
 store.subscribe(() => {
-  console.log(store.getState);
-})
+  console.log("State updated:", store.getState());
+  postCountElement.innerText = store.getState().post;
+});
 
-store.dispatch({type: "post/increment"})
-store.dispatch({type: "post/increment"})
+// Performing some operations
+const postCountElement = document.getElementsByClassName("postCount");
+postCountElement.innerText = store.getState().post;
 
-
-// initialState = countReducer(initialState, {type: "post/incrementBy", payload: 10});
-// console.log(initialState);
+// Dispatch actions
+store.dispatch(increment());
+store.dispatch(increment());
+store.dispatch(incrementBy(5));
+store.dispatch(decrement());
+store.dispatch(decrementBy(3));
