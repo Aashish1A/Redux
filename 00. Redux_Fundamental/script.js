@@ -12,6 +12,10 @@ const initialState = {
   post: 0,
 };
 
+const product = {
+  
+}
+
 // Reducer function
 function countReducer(state = initialState, action) {
   switch (action.type) {
