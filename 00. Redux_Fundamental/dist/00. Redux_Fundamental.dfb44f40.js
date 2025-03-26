@@ -156,7 +156,7 @@
       });
     }
   }
-})({"02VzT":[function(require,module,exports,__globalThis) {
+})({"9qnXY":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -164,7 +164,7 @@ var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "439701173a9199ea";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "5e0263af3c14d121";
+module.bundle.HMR_BUNDLE_ID = "db95a708dfb44f40";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -661,76 +661,149 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     }
 }
 
-},{}],"kTBnD":[function(require,module,exports,__globalThis) {
+},{}],"hu15E":[function(require,module,exports,__globalThis) {
 var _redux = require("redux");
 var _productsListJs = require("../productsList.js");
-// Define action types as constants
-const INCREMENT = "post/increment";
-const DECREMENT = "post/decrement";
-const INCREMENT_BY = "post/incrementBy";
-const DECREMENT_BY = "post/decrementBy";
-// Initial state
 const initialState = {
-    post: 0
+    products: (0, _productsListJs.productsList),
+    cartItems: [],
+    wishLists: []
 };
+const CART_ADD_ITEM = "cart/addItem";
+const CART_REMOVE_ITEM = "cart/removeItem";
+const CART_INCREASE_QUANTITY = "cart/increaseQuantity";
+const CART_DECREASE_QUANTITY = "cart/decreaseQuantity";
+const WISHLIST_ADD_ITEM = "wishList/addItem";
+const WISHLIST_REMOVE_ITEM = "wishList/removeItem";
 // Reducer function
-function countReducer(state = initialState, action) {
+function reducer(state = initialState, action) {
     switch(action.type){
-        case INCREMENT:
+        case CART_ADD_ITEM:
             return {
                 ...state,
-                post: state.post + 1
+                cartItems: [
+                    ...state.cartItems,
+                    action.payload
+                ]
             };
-        case DECREMENT:
+        case CART_REMOVE_ITEM:
             return {
                 ...state,
-                post: state.post - 1
+                cartItems: state.cartItems.filter((cartItem)=>cartItem.productId !== action.payload.productId)
             };
-        case INCREMENT_BY:
+        case CART_INCREASE_QUANTITY:
             return {
                 ...state,
-                post: state.post + action.payload
+                cartItems: state.cartItems.map((cartItem)=>{
+                    if (cartItem.productId === action.payload.productId) return {
+                        ...cartItem,
+                        quantity: cartItem.quantity + action.payload.quantity
+                    };
+                    return cartItem;
+                })
             };
-        case DECREMENT_BY:
+        case CART_DECREASE_QUANTITY:
             return {
                 ...state,
-                post: state.post - action.payload
+                cartItems: state.cartItems.map((cartItem)=>{
+                    if (cartItem.productId === action.payload.productId) return {
+                        ...cartItem,
+                        quantity: cartItem.quantity - action.payload.quantity
+                    };
+                }).filter((cartItem)=>cartItem.quantity > 0)
+            };
+        case WISHLIST_ADD_ITEM:
+            return {
+                ...state,
+                wishLists: [
+                    ...state.wishLists,
+                    action.payload
+                ]
+            };
+        case WISHLIST_REMOVE_ITEM:
+            return {
+                ...state,
+                wishLists: state.wishLists.filter((cartItem)=>cartItem.productId !== action.payload.productId)
             };
         default:
             return state;
     }
 }
-// Create action creators
-const increment = ()=>({
-        type: INCREMENT
-    });
-const decrement = ()=>({
-        type: DECREMENT
-    });
-const incrementBy = (value)=>({
-        type: INCREMENT_BY,
-        payload: value
-    });
-const decrementBy = (value)=>({
-        type: DECREMENT_BY,
-        payload: value
-    });
 // Create the Redux store
-const store = (0, _redux.createStore)(countReducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());
-// Subscribe to store updates
-store.subscribe(()=>{
-    console.log("State updated:", store.getState());
-    postCountElement.innerText = store.getState().post;
+const store = (0, _redux.createStore)(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());
+console.log(store);
+store.dispatch({
+    type: CART_ADD_ITEM,
+    payload: {
+        productId: 1,
+        quantity: 1
+    }
 });
-// Performing some operations
-const postCountElement = document.getElementsByClassName("postCount");
-postCountElement.innerText = store.getState().post;
-// Dispatch actions
-store.dispatch(increment());
-store.dispatch(increment());
-store.dispatch(incrementBy(5));
-store.dispatch(decrement());
-store.dispatch(decrementBy(3));
+store.dispatch({
+    type: CART_ADD_ITEM,
+    payload: {
+        productId: 12,
+        quantity: 1
+    }
+});
+store.dispatch({
+    type: CART_ADD_ITEM,
+    payload: {
+        productId: 15,
+        quantity: 1
+    }
+});
+store.dispatch({
+    type: CART_ADD_ITEM,
+    payload: {
+        productId: 20,
+        quantity: 1
+    }
+});
+store.dispatch({
+    type: CART_REMOVE_ITEM,
+    payload: {
+        productId: 20
+    }
+});
+store.dispatch({
+    type: CART_INCREASE_QUANTITY,
+    payload: {
+        productId: 15,
+        quantity: 4
+    }
+});
+store.dispatch({
+    type: CART_DECREASE_QUANTITY,
+    payload: {
+        productId: 15,
+        quantity: 2
+    }
+});
+store.dispatch({
+    type: WISHLIST_ADD_ITEM,
+    payload: {
+        productId: 12
+    }
+});
+store.dispatch({
+    type: WISHLIST_ADD_ITEM,
+    payload: {
+        productId: 15
+    }
+});
+store.dispatch({
+    type: WISHLIST_ADD_ITEM,
+    payload: {
+        productId: 20
+    }
+});
+store.dispatch({
+    type: WISHLIST_REMOVE_ITEM,
+    payload: {
+        productId: 15
+    }
+});
 
 },{"redux":"7RvxM","../productsList.js":"2XYbC"}],"7RvxM":[function(require,module,exports,__globalThis) {
 // src/utils/formatProdErrorMessage.ts
@@ -1317,6 +1390,6 @@ const productsList = [
     }
 ];
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["02VzT","kTBnD"], "kTBnD", "parcelRequired902")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["9qnXY","hu15E"], "hu15E", "parcelRequired902")
 
-//# sourceMappingURL=00. Redux_Fundamental.3c14d121.js.map
+//# sourceMappingURL=00. Redux_Fundamental.dfb44f40.js.map

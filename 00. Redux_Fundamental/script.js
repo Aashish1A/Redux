@@ -1,4 +1,5 @@
 import { createStore } from "redux";
+import { productsList } from "../productsList.js";
 
 // Define action types as constants
 const INCREMENT = "post/increment";
@@ -11,10 +12,6 @@ const DECREMENT_BY = "post/decrementBy";
 const initialState = {
   post: 0,
 };
-
-const product = {
-  
-}
 
 // Reducer function
 function countReducer(state = initialState, action) {
