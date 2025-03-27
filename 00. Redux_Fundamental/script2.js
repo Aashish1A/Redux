@@ -1,73 +1,30 @@
-import { createStore } from "redux";
-import { productsList } from "../productsList.js";
+import { combineReducers, createStore } from "redux";
+import cartReducer, { cartAddItem, cartRemoveItem, decreaseCartItemQuantity, increaseCartItemQuantity } from "./cartReducer";
+import wishListReducer, { addWishlistItem, removeWishlistItem } from "./wishListReducer";
+import productReducer from "./productReducer";
 
-const initialState = {
-  products: productsList,
-  cartItems: [],
-  wishLists: [],
-};
 
-const CART_ADD_ITEM = "cart/addItem";
-const CART_REMOVE_ITEM = "cart/removeItem";
-const CART_INCREASE_QUANTITY = "cart/increaseQuantity";
-const CART_DECREASE_QUANTITY = "cart/decreaseQuantity";
+const reducer = combineReducers({
+  products: productReducer,
+  cartItems: cartReducer,
+  wishList: wishListReducer
+})
 
-const WISHLIST_ADD_ITEM = "wishList/addItem";
-const WISHLIST_REMOVE_ITEM = "wishList/removeItem";
+function combineReducers(reducers){
+  const reducerKeys = Object.keys(reducers);
+  
+  return function (state = {}, action){
+    const nextState = {}
 
-// Reducer function
-function reducer(state = initialState, action) {
-  switch (action.type) {
-    case CART_ADD_ITEM:
-      return { ...state, cartItems: [...state.cartItems, action.payload] };
-    case CART_REMOVE_ITEM:
-      return {
-        ...state,
-        cartItems: state.cartItems.filter(
-          (cartItem) => cartItem.productId !== action.payload.productId
-        ),
-      };
-    case CART_INCREASE_QUANTITY:
-      return {
-        ...state,
-        cartItems: state.cartItems.map((cartItem) => {
-          if (cartItem.productId === action.payload.productId) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity + action.payload.quantity,
-            };
-          }
-          return cartItem;
-        }),
-      };
-    case CART_DECREASE_QUANTITY:
-      return {
-        ...state,
-        cartItems: state.cartItems
-          .map((cartItem) => {
-            if (cartItem.productId === action.payload.productId) {
-              return {
-                ...cartItem,
-                quantity: cartItem.quantity - action.payload.quantity,
-              };
-            }
-          })
-          .filter((cartItem) => cartItem.quantity > 0),
-      };
-    case WISHLIST_ADD_ITEM:
-      return {
-        ...state,
-        wishLists: [...state.wishLists, action.payload],
-      };
-    case WISHLIST_REMOVE_ITEM:
-      return {
-        ...state,
-        wishLists: state.wishLists.filter(
-          (cartItem) => cartItem.productId !== action.payload.productId
-        ),
-      };
-    default:
-      return state;
+    for(let i=0; i<reducerKeys.length; i++){
+      const key = reducerKeys[i];
+      const reducer = reducers[i];
+      const previousStateForKey = state[key];
+      const nextStateForKey = reducer(previousStateForKey, action);
+      nextState[key] = nextStateForKey;
+    }
+
+    return nextState;
   }
 }
 
@@ -76,41 +33,14 @@ const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());
 
 console.log(store);
 
-store.dispatch({ type: CART_ADD_ITEM, payload: { productId: 1, quantity: 1 } });
-store.dispatch({
-  type: CART_ADD_ITEM,
-  payload: { productId: 12, quantity: 1 },
-});
-store.dispatch({
-  type: CART_ADD_ITEM,
-  payload: { productId: 15, quantity: 1 },
-});
-store.dispatch({
-  type: CART_ADD_ITEM,
-  payload: { productId: 20, quantity: 1 },
-});
-store.dispatch({ type: CART_REMOVE_ITEM, payload: { productId: 20 } });
-store.dispatch({
-  type: CART_INCREASE_QUANTITY,
-  payload: { productId: 15, quantity: 4 },
-});
-store.dispatch({
-  type: CART_DECREASE_QUANTITY,
-  payload: { productId: 15, quantity: 2 },
-});
-store.dispatch({
-  type: WISHLIST_ADD_ITEM,
-  payload: { productId: 12 },
-});
-store.dispatch({
-  type: WISHLIST_ADD_ITEM,
-  payload: { productId: 15 },
-});
-store.dispatch({
-  type: WISHLIST_ADD_ITEM,
-  payload: { productId: 20 },
-});
-store.dispatch({
-  type: WISHLIST_REMOVE_ITEM,
-  payload: { productId: 15 },
-});
+store.dispatch(cartAddItem(1,1));
+store.dispatch(cartAddItem(12,1));
+store.dispatch(cartAddItem(15,1));
+store.dispatch(cartAddItem(20,1));
+store.dispatch(cartRemoveItem(20));
+store.dispatch(increaseCartItemQuantity(15,4));
+store.dispatch(decreaseCartItemQuantity(15,2));
+store.dispatch(addWishlistItem(12));
+store.dispatch(addWishlistItem(15));
+store.dispatch(addWishlistItem(20));
+store.dispatch(removeWishlistItem(20));
