@@ -12,6 +12,10 @@
     "parcel": "^2.14.2"
   },
   "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.4.1",
     "redux": "^5.0.1"
   }
 }

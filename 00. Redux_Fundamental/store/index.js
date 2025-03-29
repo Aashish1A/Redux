@@ -29,18 +29,18 @@ function combineReducers(reducers){
 }
 
 // Create the Redux store
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());
+export const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());
 
-console.log(store);
+// console.log(store);
 
-store.dispatch(cartAddItem(1,1));
-store.dispatch(cartAddItem(12,1));
-store.dispatch(cartAddItem(15,1));
-store.dispatch(cartAddItem(20,1));
-store.dispatch(cartRemoveItem(20));
-store.dispatch(increaseCartItemQuantity(15,4));
-store.dispatch(decreaseCartItemQuantity(15,2));
-store.dispatch(addWishlistItem(12));
-store.dispatch(addWishlistItem(15));
-store.dispatch(addWishlistItem(20));
-store.dispatch(removeWishlistItem(20));
+// store.dispatch(cartAddItem(1,1));
+// store.dispatch(cartAddItem(12,1));
+// store.dispatch(cartAddItem(15,1));
+// store.dispatch(cartAddItem(20,1));
+// store.dispatch(cartRemoveItem(20));
+// store.dispatch(increaseCartItemQuantity(15,4));
+// store.dispatch(decreaseCartItemQuantity(15,2));
+// store.dispatch(addWishlistItem(12));
+// store.dispatch(addWishlistItem(15));
+// store.dispatch(addWishlistItem(20));
+// store.dispatch(removeWishlistItem(20));
