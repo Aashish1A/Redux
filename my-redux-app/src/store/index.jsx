@@ -10,23 +10,23 @@ const reducer = combineReducers({
   wishList: wishListReducer
 })
 
-function combineReducers(reducers){
-  const reducerKeys = Object.keys(reducers);
+// function combineReducers(reducers){
+//   const reducerKeys = Object.keys(reducers);
   
-  return function (state = {}, action){
-    const nextState = {}
+//   return function (state = {}, action){
+//     const nextState = {}
 
-    for(let i=0; i<reducerKeys.length; i++){
-      const key = reducerKeys[i];
-      const reducer = reducers[i];
-      const previousStateForKey = state[key];
-      const nextStateForKey = reducer(previousStateForKey, action);
-      nextState[key] = nextStateForKey;
-    }
+//     for(let i=0; i<reducerKeys.length; i++){
+//       const key = reducerKeys[i];
+//       const reducer = reducers[i];
+//       const previousStateForKey = state[key];
+//       const nextStateForKey = reducer(previousStateForKey, action);
+//       nextState[key] = nextStateForKey;
+//     }
 
-    return nextState;
-  }
-}
+//     return nextState;
+//   }
+// }
 
 // Create the Redux store
 export const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.());

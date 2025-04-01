@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { productsList } from "../productsList.js";
+import { productsList } from "../productsList.jsx";
 
 // Define action types as constants
 const INCREMENT = "post/increment";
