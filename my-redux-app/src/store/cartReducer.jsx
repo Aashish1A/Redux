@@ -4,11 +4,13 @@ const CART_REMOVE_ITEM = "cart/removeItem";
 const CART_INCREASE_QUANTITY = "cart/increaseQuantity";
 const CART_DECREASE_QUANTITY = "cart/decreaseQuantity";
 
+const initialState = [];
+
 // Action Creators
 export function cartAddItem(productData){
     return{
         type: CART_ADD_ITEM,
-        payload: { productData }
+        payload: productData
     }
 }
 export function cartRemoveItem(productId){
@@ -31,7 +33,7 @@ export function decreaseCartItemQuantity(productId, quantity){
 }
 
 // Reducer
-export default function cartReducer(state = [], action) {
+export default function cartReducer(state = initialState, action) {
   switch (action.type) {
     case CART_ADD_ITEM:
       const existingItem = state.find((cartItem)=> cartItem.productId===action.payload.productId)

@@ -4,12 +4,13 @@
 const WISHLIST_ADD_ITEM = "wishList/addItem";
 const WISHLIST_REMOVE_ITEM = "wishList/removeItem";
 
+const initialState = [];
 
 // Action Creators
-export function addWishlistItem(productId){
+export function addWishlistItem(productData){
     return{
         type: WISHLIST_ADD_ITEM,
-        payload: {productId}
+        payload: productData
     }
 }
 export function removeWishlistItem(productId){
@@ -21,10 +22,16 @@ export function removeWishlistItem(productId){
 
 
 // Reducer
-export default function wishListReducer(state = [], action) {
+export default function wishListReducer(state = initialState, action) {
   switch (action.type) {
     case WISHLIST_ADD_ITEM:
-      return [...state, action.payload];
+      const existingItem = state.find(
+        (item) => item.productId === action.payload.productId
+      );
+      if (existingItem) {
+        return state; // Do nothing if the item is already in the wishlist
+      }
+      return [...state, action.payload]; // Add the new item
 
     case WISHLIST_REMOVE_ITEM:
       return state.filter(

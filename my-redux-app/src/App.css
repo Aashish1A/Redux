@@ -83,7 +83,7 @@ button {
 }
 
 header {
-  position: sticky;
+  position: relative;
   top: 0;
   background-color: white;
   border-bottom: 2px solid #898989;
