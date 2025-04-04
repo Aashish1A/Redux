@@ -1,10 +1,10 @@
 import React from "react";
-import {useDispatch} from "react-redux";
-import {cartAddItem} from "../store/cartReducer"
-import { addWishlistItem } from "../store/wishListReducer";
+import { useDispatch } from "react-redux";
+import { cartAddItem } from "../store/slices/cartSlice";
+import { addWishlistItem } from "../store/slices/wishListSlice";
 
 export default function Product({ productId, title, rating, price, imageUrl }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div className="product">
       <div className="product-image">
@@ -20,15 +20,25 @@ export default function Product({ productId, title, rating, price, imageUrl }) {
         <p className="price">${price}</p>
       </div>
       <div className="cta-container">
+        <button
+          onClick={() => {
+            dispatch(
+              cartAddItem({ productId, title, rating, price, imageUrl })
+            );
+          }}
+        >
+          Add to Cart
+        </button>
 
-        <button onClick={()=>{
-          dispatch(cartAddItem({productId, title, rating, price, imageUrl}))
-        }}>Add to Cart</button>
-
-        <button onClick={()=>{
-          dispatch(addWishlistItem({productId, title, rating, price, imageUrl}))
-        }}>Add to Wishlist</button>
-        
+        <button
+          onClick={() => {
+            dispatch(
+              addWishlistItem({ productId, title, rating, price, imageUrl })
+            );
+          }}
+        >
+          Add to Wishlist
+        </button>
       </div>
     </div>
   );
