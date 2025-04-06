@@ -4,9 +4,6 @@ import Product from "../Components/Product";
 
 export default function Home() {
   const productsList = useSelector((state) => state.products);
-  // useSelector((state)=>{
-  //   console.log(state);
-  // })
   return (
     <div className="products-container">
       {productsList.map(({ id, title, rating, price, image }) => (
