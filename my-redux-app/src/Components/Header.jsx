@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CartIcon from "../assets/cart-icon.svg";
 import wishlist from "../assets/wishlist.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAllProducts, fetchProducts, fetchProductsErrors } from "../store/slices/productSlice";
 
 export default function Header() {
    // Use the correct state key and memoize the selectors
@@ -16,6 +17,19 @@ export default function Header() {
    );
  
    const totalWishList = React.useMemo(() => wishlistItems.length, [wishlistItems]);
+
+   // Data fetching
+   const dispatch = useDispatch();
+   useEffect(()=>{
+    dispatch(fetchProducts())
+    fetch("https://fakestoreapi.com/products")
+    .then((res)=> res.json())
+    .then((data)=> {
+      dispatch(updateAllProducts(data))
+    }).catch(error => {
+      dispatch(fetchProductsErrors())
+    })
+   }, [])
 
   return (
     <header>
