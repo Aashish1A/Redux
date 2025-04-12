@@ -28,6 +28,7 @@ export default function Header() {
       dispatch(updateAllProducts(data))
     }).catch(error => {
       dispatch(fetchProductsErrors())
+      
     })
    }, [])
 
